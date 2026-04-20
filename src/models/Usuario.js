@@ -20,6 +20,29 @@ const Usuario = {
             [nombre, apellido, correo, tipo_usuario, id]
         );
         return { message: 'Usuario actualizado' };
+    },
+
+    findById: async (id) => {
+        const [rows] = await db.query('SELECT * FROM usuario WHERE id = ?', [id]);
+        return rows[0];
+    },
+
+    getPrestamosByUsuarioId: async (usuarioId) => {
+        const [rows] = await db.query(`
+            SELECT 
+                p.id,
+                p.fecha_prestamo,
+                p.fecha_devolucion_prevista,
+                p.fecha_devolucion_real,
+                l.titulo,
+                l.isbn,
+                l.anio_publicacion
+            FROM prestamo p
+            JOIN libro l ON p.libro_id = l.id
+            WHERE p.usuario_id = ?
+            ORDER BY p.fecha_prestamo DESC
+        `, [usuarioId]);
+        return rows;
     }
 };
 

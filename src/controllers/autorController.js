@@ -46,10 +46,28 @@ const getAutorById = async (req, res) => {
     }
 }
 
+const searchAutores = async (req, res) => {
+    try {
+        const { q } = req.query;
+        
+        if (!q) {
+            return res.status(400).json({ 
+                error: 'El parámetro de búsqueda "q" es obligatorio' 
+            });
+        }
+        
+        const autores = await Autor.searchByPartial(q);
+        res.json(autores);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al buscar autores' });
+    }
+}
+
 module.exports = {
     getAllAutores,
     createAutor,
     deleteAutor,
     updateAutor,
-    getAutorById
+    getAutorById,
+    searchAutores
 };

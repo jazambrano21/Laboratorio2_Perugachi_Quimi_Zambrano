@@ -41,7 +41,15 @@ const Autor = {
         return rows[0]; // Devuelve el primer autor encontrado o undefined si no existe
     },
 
-    
+    // buscar autores por coincidencia parcial en nombre o apellido
+    searchByPartial: async (query) => {
+        const [rows] = await db.query(
+            'SELECT * FROM autor WHERE LOWER(nombre) LIKE LOWER(?) OR LOWER(apellido) LIKE LOWER(?)',
+            [`%${query}%`, `%${query}%`]
+        );
+        return rows;
+    }
+
 };
 
 module.exports = Autor;

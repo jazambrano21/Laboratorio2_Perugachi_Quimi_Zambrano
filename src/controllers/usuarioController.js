@@ -27,8 +27,27 @@ const updateUsuario = async (req, res) => {
     }
 }
 
+const getPrestamosByUsuario = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        const usuario = await Usuario.findById(id);
+        if (!usuario) {
+            return res.status(404).json({ 
+                error: 'Usuario no encontrado' 
+            });
+        }
+        
+        const prestamos = await Usuario.getPrestamosByUsuarioId(id);
+        res.json(prestamos);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener préstamos del usuario' });
+    }
+}
+
 module.exports = {
     getAllUsuarios,
     createUsuario,
-    updateUsuario
+    updateUsuario,
+    getPrestamosByUsuario
 }

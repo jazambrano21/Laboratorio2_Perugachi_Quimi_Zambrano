@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS libro(
     anio_publicacion    INT NOT NULL,
     edicion             VARCHAR(35) NOT NULL,
     autor_id            INT,
-    FOREIGN KEY (autor_id) REFERENCES autor(id)
+    FOREIGN KEY (autor_id) REFERENCES autor(id) ON DELETE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS usuario (
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS prestamo (
     fecha_devolucion_prevista DATE,
     fecha_devolucion_real DATE,
 
-    FOREIGN KEY (usuario_id) REFERENCES usuario(id),
-    FOREIGN KEY (libro_id) REFERENCES libro(id)
+    FOREIGN KEY (usuario_id) REFERENCES usuario(id) ON DELETE RESTRICT,
+    FOREIGN KEY (libro_id) REFERENCES libro(id) ON DELETE RESTRICT
 );
 
